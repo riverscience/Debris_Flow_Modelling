@@ -1,0 +1,140 @@
+---
+title: "Step 5"
+author: "Rajesh Sigdel & Sarah Praskievicz"
+date: "8/31/2022"
+output: word_document
+---
+
+
+## Using GIS to identify VCA intersection point with NHD line
+
+The elevation of VCA shapefile intersection with NHDplus point needs to be identified from GIS. From our query, we found that the VCA intersection point for this dataset, which is a intersection between NHD plus line and the valley generated from Valley algorithm tools. 
+
+(This is just a test data. Users will need to change values according to their analysis)
+
+```{r}
+Fan_head_start_point_elev <- 680   # Elevation of VCA shape file intersection Point with NHD line
+```
+
+### Working Directory -------------------------------------------------------
+
+
+```{r}
+setwd("F:/RunningModel") # Users will need to change their working directory depending upon where the data is stored. 
+```
+
+
+### Packages ----------------------------------------------------------------
+
+There are some dependencies that needs to be installed. 
+
+```{r, warning = F, message = F}
+if (!require (tidyverse)) {install.packages ("tidyverse")}
+
+library(tidyverse)
+
+if (!require (readxl)) {install.packages ("readxl")}
+```
+
+
+### Importing data ----------------------------------------------------------
+
+Below is a sample data. Users can import their own data to run the code. 
+To run this code, please make sure that the column which has elevation data is named **dem_result**
+
+```{r, warning = F, message = F}
+
+library(readxl)
+
+data_frame <- read_excel("F:\\Fire_Mapping\\Data_Frames\\Rough_Patch.xlsx")
+
+```
+
+
+
+```{r}
+
+data_frame <-data_frame  %>% 
+  arrange(desc(dem_result))
+
+data_frame$`OBJECTID *` <- row.names(data_frame )
+
+
+ID_Fan_head_start_point_ID <- data_frame  %>%   
+  filter(dem_result == Fan_head_start_point_elev)
+
+ID_Fan_head_start_point <- as.numeric(ID_Fan_head_start_point_ID$`OBJECTID *`) 
+
+```
+
+# Initiation Point --------------------------------------------------------
+
+```{r}
+elev_initation_point <- (max(data_frame$dem_result) - Fan_head_start_point_elev)/2
+elev_initation_point <- elev_initation_point + Fan_head_start_point_elev
+
+
+
+Initiation_Point_DataFrame <- data_frame %>% 
+  filter(dem_result >= elev_initation_point) %>% 
+  arrange(dem_result) %>% 
+  filter(row_number()==1)
+
+```
+
+
+The dataframe starts from the Top and its ID is given 1. So, we need to compute downward distance. The distance is computed to the Fanhead  Point. Subtracting ID of Fanhead point and the Initiation Point:
+
+
+```{r}
+distance <- (ID_Fan_head_start_point  - 
+               as.numeric(Initiation_Point_DataFrame$`OBJECTID *`))*30    
+
+```
+
+The distance is only upto Fanhead  Point
+
+
+# Computing Value of Alpha ------------------------------------------------
+
+
+```{r}
+
+
+alpha <- ((elev_initation_point - 
+             Fan_head_start_point_elev)/distance)*0.88
+
+alpha <- alpha[1]
+
+
+```
+
+
+```{r}
+Topo_profile <- data_frame %>% 
+  filter (dem_result <= elev_initation_point)
+
+Topo_profile$rev_row <- (0:(length(Topo_profile$`OBJECTID *`)-1))
+
+
+
+Topo_profile <- Topo_profile %>% 
+  mutate(alpha_profile = elev_initation_point - 
+           (rev_row*30*alpha))
+```
+
+```{r}
+
+# Length <- length(Topo_profile$`OBJECTID *`) * 30 
+
+# The points are 30 meters apart. 
+
+
+run_out_length <- Topo_profile %>% 
+  filter(dem_result < alpha_profile)
+
+print (run_out_length)
+
+```
+
+
