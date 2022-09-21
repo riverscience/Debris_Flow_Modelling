@@ -8,11 +8,12 @@ Note the following caveats:
 
  
 
-The model used here is applicable only to non-volcanic debris flows, not to lahars or flows that deposit within a canyon.
-The model was developed using data from moderately sized debris flows (1000 to 10,000 metric tonnes mass) and is not applicable to very large debris flows.
-The model is based solely on topography and does not account for differences in material properties.
-These modeling results are for research purposes only. This work is preliminary and subject to revision.
+* The model used here is applicable only to non-volcanic debris flows, not to lahars or flows that deposit within a canyon.
+* The model was developed using data from moderately sized debris flows (1000 to 10,000 metric tonnes mass) and is not applicable to very large debris flows.
+* The model is based solely on topography and does not account for differences in material properties.
+* These modeling results are for research purposes only. This work is preliminary and subject to revision.
 
 
 References
-Prochaska, A.B., P.M. Santi, J.D. Higgins, and S.H. Cannon.
+Prochaska, A.B., P.M. Santi, J.D. Higgins, and S.H. Cannon. 2008. Debris-flow runout
+predictions based on the average channel slope (ACS).
