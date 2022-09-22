@@ -1,7 +1,7 @@
 # Post-Wildfire Debris-Flow Runout Modeling
 
 Debris flows are a major natural hazard in mountainous regions, particularly in the aftermath of wildfires. This project estimates potential debris-flow runout length based on topographic parameters derived from widely available geospatial data on elevation, hydrography, and
-precipitation. The underlying model is the average channel slope model developed by Prochaska et al. (2008). Model performance was tested using 34 observed debris flows across seven states with runout lengths provided by the US Landslide Inventory or measured from georeferenced aerial imagery, resulting in an average root mean square error of 0.049, with errors ranging from -0.83 to 0.41. For more details on the GIS workflow, and to access the Python and R scripts used to generate these modeling results, see [insert GitHub link].
+precipitation. The underlying model is the average channel slope model developed by Prochaska et al. (2008). Model performance was tested using 34 observed debris flows across seven states with runout lengths provided by the US Landslide Inventory or measured from georeferenced aerial imagery, resulting in an average root mean square error of 0.049, with errors ranging from -0.83 to 0.41. For more details on the GIS workflow, and to access the Python and R scripts used to generate these modeling results, see [https://github.com/riverscience/Debris_Flow_Modelling].
 
 
 Note the following caveats:
